@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>green earth</title>
+
+    <!-- css link  -->
+    <link rel="stylesheet" href="style/style.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body class="m-0">
+
+    <header>
+        <section class="">
+            <div class="bg-[#15803D] navbar bg-base-100 shadow-sm">
+                <div class="navbar-start">
+                    <div class="dropdown">
+                        <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M4 6h16M4 12h8m-8 6h16" />
+                            </svg>
+                        </div>
+                        <ul tabindex="0"
+                            class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
+                            <li><a>About</a></li>
+                            <li>
+                                <a>Gallery</a>
+                                <!-- <ul class="p-2">
+                                    <li><a>Submenu 1</a></li>
+                                    <li><a>Submenu 2</a></li>
+                                </ul> -->
+                            </li>
+                            <li><a>Plant a tree</a></li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-ghost text-xl">Green Earth</a>
+                </div>
+                <div class="navbar-center hidden lg:flex">
+                    <ul class="menu menu-horizontal px-1">
+                        <li><a>About</a></li>
+                        <li>
+                            <a>Gallery</a>
+                            <!-- <details>
+                                <summary>Gallery</summary>
+                                <ul class="p-2">
+                                    <li><a>Submenu 1</a></li>
+                                    <li><a>Submenu 2</a></li>
+                                </ul>
+                            </details> -->
+                        </li>
+                        <li><a>Plant a tree</a></li>
+                    </ul>
+                </div>
+                <div class="navbar-end">
+                    <a class="btn rounded-md">Plant a tree</a>
+                </div>
+            </div>
+
+
+        </section>
+
+
+    </header>
+
+    <main>
+
+        <section class="flex bg-[#CFF0DC] items-center">
+            <div>
+                <img src="assets/hero-leaf1.png" alt="">
+            </div>
+            <div class=" text-center">
+
+                <h1 class="text-4xl font-extrabold m-3">Plant a Tree, Grow a Future</h1>
+                <p class="m-2">Join our mission to plant 1 million trees and make the Earth greener for future
+                    generations.</p>
+                <button class="btn btn-active btn-warning rounded-3xl 
+  hover:bg-yellow-500 hover:text-white transition duration-300">
+                    Get Involved
+                </button>
+            </div>
+            <div>
+                <img src="assets/hero-leaf2.png" alt="">
+            </div>
+        </section>
+
+        <section class="bg-green-50 h-screen w-[1150px]">
+            <div class="pt-15">
+                <h1 class=" text-center text-2xl">Choose Your Trees</h1>
+
+                <div class="flex justify-between text-center">
+                    <div class="">
+                        <h2 class="text-2xl font-bold">Categories</h2>
+                        <!-- list -->
+                         <div id="list-container">
+
+                         </div>
+                    </div>
+                    <div>
+
+                        <!-- card -->
+                    </div>
+                    <div>
+                        <h2 class="text-xl font-bold">Your Cart</h2>
+
+                        <!--  add to card -->
+                    </div>
+                </div>
+
+
+            </div>
+        </section>
+    </main>
+
+
+
+
+
+<script src="js/script.js"></script>
+</body>
+
+</html>
