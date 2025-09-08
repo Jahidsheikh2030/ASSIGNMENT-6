@@ -70,7 +70,11 @@ const createCard = (tree) => {
         "w-60", "h-[350px]",
         "bg-white", "rounded-lg", "shadow-md", "p-2", "mb-2", "flex", "flex-col", "items-center"
     );
-
+    // Limit to max 6 cards (cart items)
+    const cardCount = document.querySelectorAll("#card-container > div").length;
+    if (cardCount >= 6) {
+        return null;
+    }
     const img = document.createElement('img');
     img.src = tree.image ;
     img.alt = tree.name ;
@@ -82,7 +86,7 @@ const createCard = (tree) => {
 
     const desc = document.createElement('p'); 
    
-    desc.textContent = categoryDescriptions[tree.category] || tree.description ;
+    desc.textContent = categoryDescriptions[tree.category] ;
     desc.classList.add("text-gray-600", "text-sm", "mb-2");
 
     const category = document.createElement('span');
