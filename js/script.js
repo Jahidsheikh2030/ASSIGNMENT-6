@@ -63,14 +63,23 @@ fetch("https://openapi.programming-hero.com/api/categories")
         }
     });
 
+    // loadding spinner
+    const showLoading = () => {
+        const cardContainer = document.getElementById("card-container");
+        cardContainer.innerHTML = `
+            <div class="flex justify-center items-center h-60 w-full">
+                <span class="loading loading-spinner loading-lg text-green-700"></span>
+            </div>
+        `;
+    };
 
-const createCard = (tree) => {
+let createCard = (tree) => {
     const card = document.createElement('div');
     card.classList.add(
         "w-60", "h-[350px]",
         "bg-white", "rounded-lg", "shadow-md", "p-2", "mb-2", "flex", "flex-col", "items-center"
     );
-    // Limit to max 6 cards (cart items)
+    
     const cardCount = document.querySelectorAll("#card-container > div").length;
     if (cardCount >= 6) {
         return null;
@@ -82,7 +91,11 @@ const createCard = (tree) => {
 
     const title = document.createElement('h3');
     title.textContent = tree.name ;
-    title.classList.add("text-lg", "font-semibold", "mb-1");
+    title.classList.add("text-lg", "font-semibold", "mb-1", "cursor-pointer", "hover:underline", "text-green-700");
+    title.addEventListener("click", (e) => {
+        e.stopPropagation();
+        showModal(tree);
+    });
 
     const desc = document.createElement('p'); 
    
@@ -124,7 +137,9 @@ const displayPlantCards = (plants) => {
     cardContainer.innerHTML = "";
     plants.forEach(plant => {
         const card = createCard(plant);
-        cardContainer.appendChild(card);
+        if (card) {
+            cardContainer.appendChild(card);
+        }
     });
 };
 
@@ -230,6 +245,90 @@ document.addEventListener("DOMContentLoaded", () => {
 document.addEventListener("DOMContentLoaded", fetchAndDisplayPlants);
 
 
+const showModal = (tree) => {
+    let modal = document.getElementById("tree-modal");
+    if (!modal) {
+        modal = document.createElement("div");
+        modal.id = "tree-modal";
+        modal.className = "fixed inset-0 flex items-center justify-center z-50";
+        modal.innerHTML = `
+            <div class="bg-white rounded-lg shadow-lg max-w-md w-full p-6 relative">
+                <button id="close-modal" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
+                <img id="modal-img" class="w-full h-48 object-cover rounded mb-4" />
+                <h2 id="modal-title" class="text-2xl font-bold mb-2"></h2>
+                <span id="modal-category" class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs mb-2 inline-block"></span>
+                <p id="modal-desc" class="text-gray-700 my-2"></p>
+                <p id="modal-price" class="font-bold text-lg mt-2"></p>
+            </div>
+        `;
+        document.body.appendChild(modal);
+    }
+    modal.querySelector("#modal-img").src = tree.image;
+    modal.querySelector("#modal-img").alt = tree.name;
+    modal.querySelector("#modal-title").textContent = tree.name;
+    modal.querySelector("#modal-category").textContent = tree.category;
+    modal.querySelector("#modal-desc").textContent = tree.description ;
+    modal.querySelector("#modal-price").textContent = `฿${tree.price}`;
+    modal.style.display = "flex";
+
+    modal.querySelector("#close-modal").onclick = () => {
+        modal.style.display = "none";
+    };
+    modal.onclick = (e) => {
+        if (e.target === modal) modal.style.display = "none";
+    };
+}
+
+
+
+let cart = [];
+
+const updateCartUI = () => {
+    const cartList = document.getElementById("cart-items");
+    const cartTotal = document.getElementById("cart-total");
+    cartList.innerHTML = "";
+    let total = 0;
+    cart.forEach((tree, idx) => {
+        const li = document.createElement("li");
+        li.className = "flex justify-between items-center py-1 bg-green-50 rounded-lg mb-2 px-2";
+        li.innerHTML = `
+            <div>
+                <span class="font-semibold">${tree.name}</span>
+                <div class="text-gray-600 text-sm">৳${tree.price} × ${tree.quantity}</div>
+            </div>
+            <button class="remove-cart-item text-gray-400 hover:text-red-500 text-xl" data-idx="${idx}">&times;</button>
+        `;
+        cartList.appendChild(li);
+        total += Number(tree.price) * tree.quantity;
+    });
+    cartTotal.textContent = `৳${total}`;
+};
+
+document.addEventListener("click", (e) => {
+    if (e.target && e.target.textContent === "Add to Cart") {
+        // Find the card element and extract tree info
+        const card = e.target.closest("div");
+        const name = card.querySelector("h3").textContent;
+        const price = card.querySelector(".font-bold").textContent.replace(/[^\d.]/g, "");
+        const img = card.querySelector("img").src;
+        const category = card.querySelector("span.bg-green-100")?.textContent || "";
+        const desc = card.querySelector("p.text-gray-600")?.textContent || "";
+
+        // Check if item already in cart
+        const existing = cart.find(item => item.name === name && item.price === price);
+        if (existing) {
+            existing.quantity += 1;
+        } else {
+            cart.push({ name, price, image: img, category, description: desc, quantity: 1 });
+        }
+        updateCartUI();
+    }
+    if (e.target && e.target.classList.contains("remove-cart-item")) {
+        const idx = Number(e.target.getAttribute("data-idx"));
+        cart.splice(idx, 1);
+        updateCartUI();
+    }
+});
 
 
 
